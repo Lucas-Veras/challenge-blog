@@ -3,10 +3,10 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from core.config.swagger import api_doc
+from users.urls import users_urls
 
 api_path =[
-    # path("auth/", include("authentication.urls")),
-    #path("user/", include("user.urls")),   
+    path("auth/", include(users_urls)), 
 ]
 
 
