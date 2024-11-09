@@ -6,25 +6,32 @@ import { pathRoutes } from '@/router'
 import LogoButton from '@/components/LogoButton.vue'
 import { ref } from 'vue'
 import { AuthService } from '@/services/authService'
-import type { ILogin, IRegister } from '@/interfaces/authServices'
+import type { ILogin } from '@/interfaces/authServices'
+import { useToast } from '@/components/ui/toast'
+import { useRouter } from 'vue-router'
+import type { IResponseError } from '@/interfaces/responseError'
 
 const isLoading = ref(false)
+const { toast } = useToast()
+const router = useRouter()
 
-async function handleSubmit({
-  event,
-  data,
-}: {
-  event: Event
-  data: ILogin | IRegister
-}) {
+async function handleSubmit({ data }: { data: ILogin }) {
   try {
-    event.preventDefault()
-    console.log('teste')
     isLoading.value = true
-    const res = await AuthService.login(data)
-    console.log(res)
-  } catch (error) {
-    console.error(error)
+    await AuthService.login(data)
+    router.push(pathRoutes.home)
+    toast({
+      title: 'Sucesso',
+      description: 'Login efetuado com sucesso',
+      variant: 'success',
+    })
+  } catch (error: unknown) {
+    const err = error as IResponseError
+    toast({
+      title: 'Erro',
+      description: err.response?.data?.message || 'Ocorreu um erro',
+      variant: 'destructive',
+    })
   } finally {
     isLoading.value = false
   }
