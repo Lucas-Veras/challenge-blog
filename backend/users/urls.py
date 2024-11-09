@@ -4,6 +4,7 @@ from rest_framework.routers import DefaultRouter
 from .views import (
     LogoutView,
     UserListView,
+    UserLoggedView,
     UserTokenObtainPairView,
     UserTokenRefreshView,
     UsuarioCreateView,
@@ -28,6 +29,11 @@ users_urls = [
         name="token_refresh",
     ),
     path("logout/", LogoutView.as_view()),
+    path(
+        "me/",
+        UserLoggedView.as_view(),
+        name="user-list",
+    ),
     path("users/", UserListView.as_view(), name="user-list"),
 ]
 

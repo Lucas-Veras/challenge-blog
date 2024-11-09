@@ -119,3 +119,12 @@ class LogoutView(APIView):
             "message": "Usuário deslogado com sucesso",
         }
         return response
+
+
+# enpoint para pegar o usuario logado
+@extend_schema(tags=["Auth"])
+class UserLoggedView(APIView):
+    def get(self, request):
+        user = request.user
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
