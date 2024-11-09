@@ -3,6 +3,7 @@ from uuid import uuid4
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from users.managers import UserManager
 
 from .person import Person
@@ -23,6 +24,7 @@ class User(AbstractUser):
         unique=True,
         null=False,
         blank=False,
+        error_messages={"unique": "Já existe um usuário com esse email."},
     )
 
     person = models.ForeignKey(
