@@ -121,7 +121,6 @@ class LogoutView(APIView):
         return response
 
 
-# enpoint para pegar o usuario logado
 @extend_schema(tags=["Auth"])
 class UserLoggedView(APIView):
     def get(self, request):
