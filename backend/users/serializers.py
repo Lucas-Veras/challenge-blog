@@ -82,14 +82,12 @@ class UsuarioCreateSerializer(serializers.ModelSerializer):
             common_user, created = Group.objects.get_or_create(
                 name=GroupUserEnum.COMMON_USER
             )
-
             user = User.objects.create(
                 email=validated_data["email"],
             )
-            person, created = Person.objects.get_or_create(
-                defaults={
-                    "name": validated_data["name"],
-                },
+
+            person = Person.objects.create(
+                name=validated_data["name"],
             )
             user.set_password(validated_data["password"])
             user.groups.add(common_user)
