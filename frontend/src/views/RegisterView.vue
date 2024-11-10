@@ -6,7 +6,7 @@ import useRegister from '@/hooks/useRegister'
 import { cn } from '@/lib/utils'
 import { pathRoutes } from '@/router'
 
-const { handleSubmit, isLoading } = useRegister()
+const { handleSubmit, computedIsLoading: isLoading } = useRegister()
 </script>
 
 <template>
