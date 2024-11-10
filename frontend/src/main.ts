@@ -6,14 +6,9 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import { router } from './router'
 import { OhVueIcon, addIcons } from 'oh-vue-icons'
-import {
-  FaFlag,
-  RiZhihuFill,
-  LaPencilAltSolid,
-  RiLoader4Line,
-} from 'oh-vue-icons/icons'
+import { LaPencilAltSolid } from 'oh-vue-icons/icons'
 
-addIcons(FaFlag, RiZhihuFill, LaPencilAltSolid, RiLoader4Line)
+addIcons(LaPencilAltSolid)
 
 const app = createApp(App)
 

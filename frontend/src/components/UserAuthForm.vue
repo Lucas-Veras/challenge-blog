@@ -8,6 +8,7 @@ import { useForm } from 'vee-validate'
 import { loginSchema } from '@/schemas/loginSchema'
 import { registerSchema } from '@/schemas/registerSchema'
 import FormInputField from '@/components/FormInputField.vue'
+import { LoaderCircle } from 'lucide-vue-next'
 
 type FormType = 'login' | 'register'
 const props = defineProps({
@@ -62,7 +63,7 @@ const onSubmit = handleSubmit(values => {
         />
 
         <Button :disabled="isLoading" type="submit">
-          <v-icon
+          <LoaderCircle
             v-if="isLoading"
             name="ri-loader-4-line"
             class="h-4 w-4 animate-spin text-white"
