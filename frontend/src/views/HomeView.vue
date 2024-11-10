@@ -9,7 +9,12 @@ import { LoaderCircle, Search } from 'lucide-vue-next'
 import { ref } from 'vue'
 
 const search = ref('')
-const { computedIsLoading, posts } = useGetPosts()
+const { computedIsLoading, posts, getPosts } = useGetPosts()
+
+const handleSearchSubmit = (e: Event) => {
+  e.preventDefault()
+  getPosts({ search: search.value })
+}
 </script>
 
 <template>
@@ -19,7 +24,10 @@ const { computedIsLoading, posts } = useGetPosts()
       Seja bem-vindo ao Writer
     </h1>
 
-    <form class="flex justify-center items-center gap-2 max-w-96 mx-auto mb-6">
+    <form
+      @submit="handleSearchSubmit"
+      class="flex justify-center items-center gap-2 max-w-96 mx-auto mb-6"
+    >
       <FormInputField
         v-model="search"
         type="text"
@@ -28,7 +36,12 @@ const { computedIsLoading, posts } = useGetPosts()
         class="w-full"
       />
       <Button class="text-white p-2" :disabled="computedIsLoading">
-        <Search />
+        <LoaderCircle
+          v-if="computedIsLoading"
+          name="ri-loader-4-line"
+          class="h-7 w-7 animate-spin mx-auto"
+        />
+        <Search v-else />
       </Button>
     </form>
 

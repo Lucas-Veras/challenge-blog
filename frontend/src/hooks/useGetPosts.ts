@@ -9,10 +9,10 @@ const useGetPosts = () => {
 
   const computedIsLoading = computed(() => isLoading.value)
 
-  const getPosts = async () => {
+  const getPosts = async (params?: unknown) => {
     try {
       isLoading.value = true
-      const res = await PostService.gesPosts()
+      const res = await PostService.gesPosts(params)
       posts.value = res?.results
     } catch {
       toast({
