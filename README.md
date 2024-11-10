@@ -88,4 +88,22 @@ The database schema consists of the following tables:
 - **PUT /api/comments/{id}**: Update a comment by ID. (Has to implement)
 - **DELETE /api/comments/{id}**: Delete a comment by ID. (Has to implement)
 
+## Frontend
+
+### LoginView.vue
+
+The `LoginView.vue` component manages user authentication and includes fields for:
+- **Email:** The user's email.
+- **Password:** The user's password.
+
+### RegisterView.vue
+
+The `RegisterView.vue` component handles user registration and includes fields for:
+- **Name:** The user's full name.
+- **Email:** The user's email address.
+- **Password:** The user's password.
+
+### HomeView.vue
+
+The `HomeView.vue` is a component for listing and searching posts.
 
