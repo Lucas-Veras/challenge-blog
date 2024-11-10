@@ -13,22 +13,10 @@ class PostBaseSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(PostBaseSerializer):
-    author = serializers.CharField(source="author.username", read_only=True)
-    created_at = serializers.DateTimeField(read_only=True)
-
-    class Meta(PostBaseSerializer.Meta):
-        model = Post
-        fields = PostBaseSerializer.Meta.fields + (
-            "author",
-            "created_at",
-        )
-
-
-class PostCreateSerializer(PostBaseSerializer):
-    author = serializers.CharField(source="author.username", read_only=True)
+    author = serializers.CharField(source="author.person.name", read_only=True)
     created_at = serializers.DateTimeField(
         read_only=True,
-        format="%d/%m/%Y %H:%M:%S",
+        format="%d/%m/%Y",
     )
 
     class Meta(PostBaseSerializer.Meta):
