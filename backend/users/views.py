@@ -101,7 +101,7 @@ class UsuarioCreateView(generics.CreateAPIView):
 
 @extend_schema(tags=["Auth"])
 class UserListView(generics.ListAPIView):
-    queryset = User.objects.all()
+    queryset = User.objects.all().order_by("-id")
     serializer_class = UserSerializer
 
 
