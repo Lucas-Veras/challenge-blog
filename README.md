@@ -107,3 +107,64 @@ The `RegisterView.vue` component handles user registration and includes fields f
 
 The `HomeView.vue` is a component for listing and searching posts.
 
+## Installation
+
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/Lucas-Veras/challenge-blog.git
+    ```
+2. **Navigate to the Backend Directory**
+   ```bash
+   cd .\backend
+    ```
+3. **Create a Python Virtual Environment**
+  - For Linux/macOS:
+    ```bash
+     python3 -m venv venv
+    ```
+  - For Windows:
+    ```bash
+     python -m venv venv
+    ```
+4. **Activate the Virtual Environment**
+  - For Linux/macOS:
+    ```bash
+     source venv/bin/activate
+    ```
+  - For Windows:
+    ```bash
+     .\venv\Scripts\activate
+    ```
+5. **Install Dependecies**
+- For Backend (Django Rest Framework)
+    ```bash
+      pip install -r requirements.txt
+    ```
+- For Frontend (Vue.js)
+
+    ```bash
+      cd .\frontend
+    ```
+
+    ```bash
+      npm install
+    ```
+6. **Run Migrations**
+    ```bash
+      python manage.py migrate
+    ```
+7. **Run the Development Server**
+   - For backend:
+   ```bash
+    python manage.py runserver
+    ```
+    - For Vue.Js:
+    
+    ```bash
+    cd .\frontend
+    ```
+    
+    ```bash
+    npm run dev
+    ```
+   - Then visit `http://localhost:5173/` to see the home page.
