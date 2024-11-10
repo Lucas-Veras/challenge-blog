@@ -54,3 +54,38 @@ The database schema consists of the following tables:
 - `post_id` (INTEGER, FK for `post.id`)
 - `created_at` (DATETIME)
 - `updated_at` (DATETIME)
+
+## API Endpoints
+
+### Auth
+
+- **POST /api/auth/login**: Logs into the application and returns the refresh and access tokens.
+- **POST /api/auth/logout**: Logout from the application.
+- **GET /api/auth/me**: Returns the logged-in use.
+- **POST /api/auth/resgister**: Create a new user.
+- **POST /api/auth/token/refresh**: Return a new access token.
+
+### Posts
+
+- **GET /api/posts**: Fetch a list of posts.
+- **GET /api/posts/{id}**: Fetch a post by ID (Has to implement)
+- **POST /api/posts**: Create a new post. 
+- **PUT /api/posts/{id}**: Update a post by ID. (Has to implement)
+- **DELETE /api/posts/{id}**: Delete a post by ID. (Has to implement)
+
+### Categories
+
+- **GET /api/categories**: Fetch a list of categories. (Has to implement)
+- **POST /api/categories**: Create a new category. (Has to implement)
+- **PUT /api/categories/{id}**: Update a category by ID. (Has to implement)
+- **DELETE /api/categories/{id}**: Delete a category by ID. (Has to implement)
+
+### Comments
+
+- **GET /api/comments**: Fetch a list of comments. (Has to implement)
+- **POST /api/comments**: Create a new comment. (Has to implement)
+- **GET /api/comments/{id}**: Fetch a specific comment by ID. (Has to implement)
+- **PUT /api/comments/{id}**: Update a comment by ID. (Has to implement)
+- **DELETE /api/comments/{id}**: Delete a comment by ID. (Has to implement)
+
+
