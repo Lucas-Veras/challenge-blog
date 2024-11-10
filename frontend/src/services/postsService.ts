@@ -2,7 +2,7 @@ import type { IResponsePost } from '@/interfaces/posts'
 import { api } from '.'
 
 class PostService {
-  static async gesPosts(params?: unknown): Promise<IResponsePost> {
+  static async getPosts(params?: unknown): Promise<IResponsePost> {
     try {
       const response = await api.get('/posts/', { params })
       return response.data

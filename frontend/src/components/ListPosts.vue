@@ -1,13 +1,6 @@
 <template>
-  <div class="flex flex-col gap-2 w-full">
-    <LoaderCircle
-      v-if="isLoading"
-      name="ri-loader-4-line"
-      class="h-7 w-7 animate-spin mx-auto"
-    />
-
+  <div class="flex flex-col gap-2 w-full" v-if="posts && posts.length > 0">
     <PostCard
-      v-else-if="!isLoading && posts && posts.length > 0"
       v-for="post in posts"
       :key="post.id"
       :user="post.author"
@@ -15,7 +8,16 @@
       :content="post.content"
       :createdAt="post.created_at"
     />
-    <p v-else class="text-center">Não há posts para exibir</p>
+  </div>
+  <p v-else-if="!isLoading && posts && posts.length === 0" class="text-center">
+    Não há posts para exibir
+  </p>
+  <div class="my-5">
+    <LoaderCircle
+      v-if="isLoading"
+      name="ri-loader-4-line"
+      class="h-7 w-7 animate-spin mx-auto"
+    />
   </div>
 </template>
 
