@@ -6,15 +6,8 @@ import Button from '@/components/ui/button/Button.vue'
 import useGetPosts from '@/hooks/useGetPosts'
 import { LoaderCircle, Search } from 'lucide-vue-next'
 
-import { ref } from 'vue'
-
-const search = ref('')
-const { computedIsLoading, computedPosts, getPosts } = useGetPosts()
-
-const handleSearchSubmit = async (e: Event) => {
-  e.preventDefault()
-  await getPosts({ search: search.value })
-}
+const { computedIsLoading, computedPosts, handleSearchSubmit, search } =
+  useGetPosts()
 </script>
 
 <template>

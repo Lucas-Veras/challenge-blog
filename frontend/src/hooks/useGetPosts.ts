@@ -4,6 +4,7 @@ import { computed, onMounted, ref } from 'vue'
 import useToast from '@/hooks/useToast'
 
 const useGetPosts = () => {
+  const search = ref('')
   const posts = ref<IPost[]>()
   const isLoading = ref(true)
   const { toastError } = useToast()
@@ -23,6 +24,11 @@ const useGetPosts = () => {
     }
   }
 
+  const handleSearchSubmit = async (e: Event) => {
+    e.preventDefault()
+    await getPosts({ search: search.value })
+  }
+
   onMounted(() => {
     getPosts()
   })
@@ -31,6 +37,8 @@ const useGetPosts = () => {
     computedPosts,
     computedIsLoading,
     getPosts,
+    search,
+    handleSearchSubmit,
   }
 }
 
