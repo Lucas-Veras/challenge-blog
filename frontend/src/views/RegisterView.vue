@@ -1,40 +1,12 @@
 <script setup lang="ts">
 import LogoButton from '@/components/LogoButton.vue'
 import { buttonVariants } from '@/components/ui/button'
-import { useToast } from '@/components/ui/toast'
 import UserAuthForm from '@/components/UserAuthForm.vue'
-import type { ILogin, IRegister } from '@/interfaces/authServices'
+import useRegister from '@/hooks/useRegister'
 import { cn } from '@/lib/utils'
 import { pathRoutes } from '@/router'
-import { AuthService } from '@/services/authService'
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 
-const isLoading = ref(false)
-const { toast } = useToast()
-const router = useRouter()
-
-async function handleSubmit({ data }: { data: ILogin | IRegister }) {
-  try {
-    isLoading.value = true
-    const res = await AuthService.register(data as IRegister)
-    router.push(pathRoutes.login)
-    toast({
-      title: 'Sucesso',
-      description: res?.message,
-      variant: 'default',
-    })
-  } catch (error: unknown) {
-    const err = error as { response?: { data?: { email?: string[] } } }
-    toast({
-      title: 'Erro',
-      description: err.response?.data?.email?.[0] || 'Ocorreu um erro',
-      variant: 'destructive',
-    })
-  } finally {
-    isLoading.value = false
-  }
-}
+const { handleSubmit, isLoading } = useRegister()
 </script>
 
 <template>
@@ -65,7 +37,11 @@ async function handleSubmit({ data }: { data: ILogin | IRegister }) {
             Digite os dados abaixo para criar sua conta
           </p>
         </div>
-        <UserAuthForm @submit="handleSubmit" formType="register" />
+        <UserAuthForm
+          @submit="handleSubmit"
+          :isLoading="isLoading"
+          formType="register"
+        />
         <p class="px-8 text-center text-sm text-muted-foreground">
           Já tem uma conta?
           <RouterLink

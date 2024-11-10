@@ -5,8 +5,8 @@ import AuthProvider from './Providers/AuthProvider.vue'
 </script>
 
 <template>
+  <Toaster />
   <AuthProvider>
-    <Toaster />
     <RouterView />
   </AuthProvider>
 </template>

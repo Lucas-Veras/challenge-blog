@@ -4,44 +4,9 @@ import UserAuthForm from '@/components/UserAuthForm.vue'
 import { buttonVariants } from '@/components/ui/button'
 import { pathRoutes } from '@/router'
 import LogoButton from '@/components/LogoButton.vue'
-import { ref } from 'vue'
-import { AuthService } from '@/services/authService'
-import type { ILogin } from '@/interfaces/authServices'
-import { useToast } from '@/components/ui/toast'
-import { useRouter } from 'vue-router'
-import type { IResponseError } from '@/interfaces/responseError'
-import { useUserLoggedStore } from '@/stores/authStore'
+import { useLogin } from '@/hooks/useLogin'
 
-const isLoading = ref(false)
-const { toast } = useToast()
-const router = useRouter()
-const { setLoggedUser } = useUserLoggedStore()
-
-async function handleSubmit({ data }: { data: ILogin }) {
-  try {
-    isLoading.value = true
-    const res = await AuthService.login(data)
-    localStorage.setItem('access_token', res.access)
-    localStorage.setItem('refresh_token', res.refresh)
-    const user = await AuthService.getLoggedUser()
-    setLoggedUser(user)
-    router.push(pathRoutes.home)
-    toast({
-      title: 'Sucesso',
-      description: 'Login efetuado com sucesso',
-      variant: 'success',
-    })
-  } catch (error: unknown) {
-    const err = error as IResponseError
-    toast({
-      title: 'Erro',
-      description: err.response?.data?.message || 'Ocorreu um erro',
-      variant: 'destructive',
-    })
-  } finally {
-    isLoading.value = false
-  }
-}
+const { handleSubmit, isLoading } = useLogin()
 </script>
 
 <template>

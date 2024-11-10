@@ -11,21 +11,19 @@
       </Button>
     </DropdownMenuTrigger>
 
-    <DropdownMenuContent class="w-56">
+    <DropdownMenuContent class="w-56 mr-4">
       <DropdownMenuLabel>Minha conta</DropdownMenuLabel>
 
       <DropdownMenuSeparator />
       <DropdownMenuItem @click="handleLogout">
         <LogOut class="mr-2 h-4 w-4" />
-        <span>Log out</span>
+        <span>Sair</span>
       </DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>
 </template>
 
 <script setup lang="ts">
-import { pathRoutes, router } from '@/router'
-import { useUserLoggedStore } from '@/stores/authStore'
 import { computed } from 'vue'
 import { formatFirstName } from '@/utils/formatFirstName'
 import { Button } from '@/components/ui/button'
@@ -39,27 +37,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { LogOut, User } from 'lucide-vue-next'
-import { AuthService } from '@/services/authService'
+import { useLogout } from '@/hooks/useLogout'
 
-const { loggedUser, setIsAuthenticated, setLoggedUser, setIsLoading } =
-  useUserLoggedStore()
+const { handleLogout, loggedUser } = useLogout()
 const userName = computed(() => {
   return formatFirstName(loggedUser?.name)
 })
-
-const handleLogout = async () => {
-  try {
-    setIsLoading(true)
-    await AuthService.logout()
-    localStorage.removeItem('access_token')
-    localStorage.removeItem('refresh_token')
-    setLoggedUser(null)
-    setIsAuthenticated(false)
-    router.push(pathRoutes.home)
-  } catch (error) {
-    console.error('Erro ao fazer logout:', error)
-  } finally {
-    setIsLoading(false)
-  }
-}
 </script>
