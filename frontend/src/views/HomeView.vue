@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import FormInputField from '@/components/FormInputField.vue'
 import HeaderPage from '@/components/HeaderPage.vue'
-import PostCard from '@/components/PostCard.vue'
+import ListPosts from '@/components/ListPosts.vue'
 import Button from '@/components/ui/button/Button.vue'
 import useGetPosts from '@/hooks/useGetPosts'
 import { LoaderCircle, Search } from 'lucide-vue-next'
@@ -9,11 +9,11 @@ import { LoaderCircle, Search } from 'lucide-vue-next'
 import { ref } from 'vue'
 
 const search = ref('')
-const { computedIsLoading, posts, getPosts } = useGetPosts()
+const { computedIsLoading, computedPosts, getPosts } = useGetPosts()
 
-const handleSearchSubmit = (e: Event) => {
+const handleSearchSubmit = async (e: Event) => {
   e.preventDefault()
-  getPosts({ search: search.value })
+  await getPosts({ search: search.value })
 }
 </script>
 
@@ -45,22 +45,6 @@ const handleSearchSubmit = (e: Event) => {
       </Button>
     </form>
 
-    <div class="flex flex-col gap-2 w-full">
-      <LoaderCircle
-        v-if="computedIsLoading"
-        name="ri-loader-4-line"
-        class="h-7 w-7 animate-spin mx-auto"
-      />
-      <PostCard
-        v-else-if="!computedIsLoading && posts.length > 0"
-        v-for="post in posts"
-        :key="post.id"
-        :user="post.author"
-        :title="post.title"
-        :content="post.content"
-        :createdAt="post.created_at"
-      />
-      <p v-else>Não há posts para exibir</p>
-    </div>
+    <ListPosts :isLoading="computedIsLoading" :posts="computedPosts" />
   </main>
 </template>
