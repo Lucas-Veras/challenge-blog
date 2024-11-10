@@ -1,12 +1,14 @@
-from django.contrib import admin
-from django.urls import path, include
+from core.config.swagger import api_doc
 from django.conf import settings
 from django.conf.urls.static import static
-from core.config.swagger import api_doc
+from django.contrib import admin
+from django.urls import include, path
+from posts.urls import posts_urls
 from users.urls import users_urls
 
-api_path =[
-    path("auth/", include(users_urls)), 
+api_path = [
+    path("auth/", include(users_urls)),
+    path("posts/", include(posts_urls)),
 ]
 
 
