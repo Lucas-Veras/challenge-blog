@@ -1,24 +1,24 @@
 from drf_spectacular.utils import extend_schema
 from posts.models.post import Post
-from posts.serializers import PostCreateSerializer, PostSerializer
-from rest_framework import generics
+from posts.serializers import PostSerializer
+from rest_framework import filters, generics
 from rest_framework.permissions import AllowAny
 
 
 @extend_schema(tags=["Posts"])
 class PostView(generics.ListCreateAPIView):
-    queryset = Post.objects.all()
+    queryset = Post.objects.all().order_by("-created_at")
     serializer_class = PostSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = [
+        "title",
+        "author__person__name",
+    ]
 
     def get_permissions(self):
         if self.request.method == "GET":
             return [AllowAny()]
         return super().get_permissions()
-
-    def get_serializer(self, *args, **kwargs):
-        if self.request.method == "POST":
-            return PostCreateSerializer(*args, **kwargs)
-        return super().get_serializer(*args, **kwargs)
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
