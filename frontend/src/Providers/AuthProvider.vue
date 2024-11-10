@@ -2,6 +2,7 @@
 import { pathRoutes } from '@/router'
 import { AuthService } from '@/services/authService'
 import { useUserLoggedStore } from '@/stores/authStore'
+import { LoaderCircle } from 'lucide-vue-next'
 import { computed, onMounted } from 'vue'
 
 import { useRouter } from 'vue-router'
@@ -50,7 +51,12 @@ defineExpose({ isUserAuthenticated, loading })
 </script>
 
 <template>
-  <div v-if="loading">Carregando...</div>
+  <div
+    v-if="loading"
+    class="h-[100dvh] v-[100dvh] flex items-center justify-center"
+  >
+    <LoaderCircle name="ri-loader-4-line" class="h-9 w-9 animate-spin" />
+  </div>
   <div v-else>
     <slot v-if="isUserAuthenticated" />
     <router-view v-else />
