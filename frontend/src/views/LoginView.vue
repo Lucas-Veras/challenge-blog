@@ -10,15 +10,21 @@ import type { ILogin } from '@/interfaces/authServices'
 import { useToast } from '@/components/ui/toast'
 import { useRouter } from 'vue-router'
 import type { IResponseError } from '@/interfaces/responseError'
+import { useUserLoggedStore } from '@/stores/authStore'
 
 const isLoading = ref(false)
 const { toast } = useToast()
 const router = useRouter()
+const { setLoggedUser } = useUserLoggedStore()
 
 async function handleSubmit({ data }: { data: ILogin }) {
   try {
     isLoading.value = true
-    await AuthService.login(data)
+    const res = await AuthService.login(data)
+    localStorage.setItem('access_token', res.access)
+    localStorage.setItem('refresh_token', res.refresh)
+    const user = await AuthService.getLoggedUser()
+    setLoggedUser(user)
     router.push(pathRoutes.home)
     toast({
       title: 'Sucesso',

@@ -23,6 +23,35 @@ class AuthService {
       throw error
     }
   }
+
+  static async logout() {
+    try {
+      const response = await api.post('/auth/logout/')
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  }
+
+  static async refreshToken(refreshToken: string) {
+    try {
+      const response = await api.post('/auth/token/refresh/', {
+        refresh: refreshToken,
+      })
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  }
+
+  static async getLoggedUser() {
+    try {
+      const response = await api.get('/auth/me/')
+      return response.data
+    } catch (error) {
+      throw error
+    }
+  }
 }
 
 export { AuthService }
