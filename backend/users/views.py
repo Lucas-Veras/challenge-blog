@@ -46,20 +46,18 @@ class UserTokenObtainPairView(TokenObtainPairView):
                 secure=True,
                 samesite="Strict",
             )
-            del response.data["refresh"]
 
         return response
 
 
 @extend_schema(
     tags=["Auth"],
-    request=None,
 )
 class UserTokenRefreshView(TokenRefreshView):
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
-        refresh_token = request.COOKIES.get("refresh_token")
+        refresh_token = request.data.get("refresh")
 
         if not refresh_token:
             return Response(
