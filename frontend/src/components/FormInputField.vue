@@ -8,18 +8,18 @@ import {
   FormControl,
 } from '@/components/ui/form'
 import type { PropType } from 'vue'
-import Input from './ui/input/Input.vue';
+import Input from './ui/input/Input.vue'
 
 type typeInput = 'text' | 'password' | 'email'
 
-const { label, name, placeholder, type } = defineProps({
+const props = defineProps({
   name: {
     type: String,
     required: true,
   },
   label: {
     type: String,
-    required: true,
+    required: false,
   },
   placeholder: {
     type: String,
@@ -29,13 +29,20 @@ const { label, name, placeholder, type } = defineProps({
     type: String as PropType<typeInput>,
     default: 'text',
   },
+  class: {
+    type: String,
+    default: '',
+    required: false,
+  },
 })
+
+const { label, name, placeholder, type, class: className } = props
 </script>
 
 <template>
   <FormField v-slot="{ componentField }" :name="name">
-    <FormItem>
-      <FormLabel>{{ label }}</FormLabel>
+    <FormItem :class="className">
+      <FormLabel v-if="label">{{ label }}</FormLabel>
       <FormControl>
         <Input
           :type="type"
