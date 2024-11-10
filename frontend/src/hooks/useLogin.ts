@@ -1,4 +1,3 @@
-import { useToast } from '@/components/ui/toast'
 import type { ILogin } from '@/interfaces/authServices'
 import type { IResponseError } from '@/interfaces/responseError'
 import { pathRoutes } from '@/router'
@@ -6,10 +5,11 @@ import { AuthService } from '@/services/authService'
 import { useUserLoggedStore } from '@/stores/authStore'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import useToast from '@/hooks/useToast'
 
 export const useLogin = () => {
   const isLoading = ref(false)
-  const { toast } = useToast()
+  const { toastSuccess, toastError } = useToast()
   const router = useRouter()
   const { setLoggedUser } = useUserLoggedStore()
 
@@ -21,19 +21,11 @@ export const useLogin = () => {
       localStorage.setItem('refresh_token', res.refresh)
       const user = await AuthService.getLoggedUser()
       setLoggedUser(user)
-      toast({
-        title: 'Sucesso',
-        description: 'Login efetuado com sucesso',
-        variant: 'success',
-      })
+      toastSuccess('Login efetuado com sucesso')
       router.push(pathRoutes.home)
     } catch (error: unknown) {
       const err = error as IResponseError
-      toast({
-        title: 'Erro',
-        description: err.response?.data?.message || 'Ocorreu um erro',
-        variant: 'destructive',
-      })
+      toastError(err.response?.data?.message || 'Ocorreu um erro')
     } finally {
       isLoading.value = false
     }

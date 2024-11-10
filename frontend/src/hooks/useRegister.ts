@@ -1,39 +1,38 @@
-import { useToast } from '@/components/ui/toast'
 import type { ILogin, IRegister } from '@/interfaces/authServices'
 import { pathRoutes } from '@/router'
 import { AuthService } from '@/services/authService'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import useToast from '@/hooks/useToast'
 
 const useRegister = () => {
   const isLoading = ref(false)
-  const { toast } = useToast()
+  const { toastError, toastSuccess } = useToast()
   const router = useRouter()
+
+  const computedIsLoading = computed(() => isLoading.value)
 
   async function handleSubmit({ data }: { data: ILogin | IRegister }) {
     try {
       isLoading.value = true
       const res = await AuthService.register(data as IRegister)
-      toast({
-        title: 'Sucesso',
-        description: res?.message,
-        variant: 'default',
-      })
+      toastSuccess(res?.message)
       router.push(pathRoutes.login)
     } catch (error: unknown) {
-      const err = error as { response?: { data?: { email?: string[] } } }
-      toast({
-        title: 'Erro',
-        description: err.response?.data?.email?.[0] || 'Ocorreu um erro',
-        variant: 'destructive',
-      })
+      const err = error as {
+        response?: { data?: { email?: string[]; message?: string } }
+      }
+      const data = err?.response?.data
+      const message = data?.message ? data.message : data?.email?.[0]
+      toastError(message ?? 'Ocorreu um erro')
     } finally {
       isLoading.value = false
+      console.log('entrou')
     }
   }
 
   return {
-    isLoading,
+    computedIsLoading,
     handleSubmit,
   }
 }

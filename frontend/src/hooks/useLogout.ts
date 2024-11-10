@@ -1,10 +1,12 @@
 import { useUserLoggedStore } from '@/stores/authStore'
 import { AuthService } from '@/services/authService'
 import { pathRoutes, router } from '@/router'
+import useToast from '@/hooks/useToast'
 
 export const useLogout = () => {
   const { loggedUser, setIsAuthenticated, setLoggedUser, setIsLoading } =
     useUserLoggedStore()
+  const { toastError, toastSuccess } = useToast()
 
   const handleLogout = async () => {
     try {
@@ -14,9 +16,10 @@ export const useLogout = () => {
       localStorage.removeItem('refresh_token')
       setLoggedUser(null)
       setIsAuthenticated(false)
+      toastSuccess('Logout efetuado com sucesso')
       router.push(pathRoutes.home)
-    } catch (error) {
-      console.error('Erro ao fazer logout:', error)
+    } catch {
+      toastError('Erro ao fazer logout')
     } finally {
       setIsLoading(false)
     }
