@@ -1,4 +1,6 @@
-# Blog Project
+# Blog Project - Writer
+
+![Captura de tela 2024-11-10 173926](https://github.com/user-attachments/assets/4d38233c-68ff-4924-994f-4402c58d68fe)
 
 ## Overview
 
