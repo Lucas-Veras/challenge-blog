@@ -50,12 +50,6 @@ class User(AbstractUser):
         blank=True,
     )
 
-    user_permissions = models.ManyToManyField(
-        Permission,
-        related_name="user_permissions",
-        blank=True,
-    )
-
     @property
     def name(self):
         return self.person.name.split(" ")[0]
