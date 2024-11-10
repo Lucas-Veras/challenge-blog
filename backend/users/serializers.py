@@ -6,7 +6,8 @@ from django.contrib.auth.password_validation import validate_password
 from django.db import transaction
 from rest_framework import serializers
 from rest_framework.exceptions import NotFound
-from rest_framework.status import HTTP_401_UNAUTHORIZED
+from rest_framework.response import Response
+from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.utils import datetime_to_epoch
 from users.constants import GroupUserEnum
@@ -31,11 +32,14 @@ class UserTokenObtainPairSerializer(TokenObtainPairSerializer):
         email = attrs.get("email")
         detail = {
             "success": False,
-            "message": "Usuário e/ou senha incorreto(s)",
+            "message": "Email e/ou senha incorreto(s)",
         }
         self.error_messages["no_active_account"] = detail
         try:
             user: User = User.objects.get(email=email)
+
+            if not user.check_password(attrs.get("password")):
+                raise NotFound(detail=detail)
 
             access_exp = get_future_datetime(
                 SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"],
@@ -47,13 +51,7 @@ class UserTokenObtainPairSerializer(TokenObtainPairSerializer):
             data["exp"] = datetime_to_epoch(access_exp)
             return data
         except User.DoesNotExist:
-            raise NotFound(
-                detail={
-                    "success": False,
-                    "message": "Usuário e/ou senha incorreto(s)",
-                },
-                code=HTTP_401_UNAUTHORIZED,
-            )
+            raise NotFound(detail=detail)
 
 
 class UsuarioCreateSerializer(serializers.ModelSerializer):
